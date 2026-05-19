@@ -1,0 +1,114 @@
+/* ============================================================
+   maCher Chan® — Global Stylesheet
+   全站唯一的 @font-face 声明、CSS 变量、Reset、导航通用样式
+   ============================================================ */
+
+/* ---------- Font ---------- */
+@font-face {
+  font-family: 'HelveticaNeue93BlackExt';
+  src: url('../assets/fonts/HelveticaNeue93BlackExt.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Design Tokens ---------- */
+:root {
+  /* 品牌色 */
+  --brand-blue: #146EF5;
+
+  /* 背景 */
+  --bg-primary: #F4F4F5;
+
+  /* 文字 */
+  --text-primary: #1c1c1e;
+  --text-secondary: rgba(0,0,0,0.4);
+  --text-nav: #000000;
+
+  /* 品牌元素 */
+  --brand-logo: #146EF5;
+  --brand-title: #146EF5;
+
+  /* 字体 */
+  --font-brand: 'HelveticaNeue93BlackExt', 'Helvetica Neue', Arial, sans-serif;
+  --font-cn: 'Microsoft YaHei', sans-serif;
+
+  /* 字距 */
+  --tracking-brand: -0.077em;
+  --tracking-nav: -0.023em;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---------- Navigation (all pages) ---------- */
+/* 使用方式：<nav class="nav"><a class="nav-logo" href="index.html">maCher Chan®</a><div class="nav-links"><a href="...">PROJECTS</a>...</div></nav> */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px;
+  height: 70px;
+  background: transparent;
+}
+
+.nav-logo {
+  font-family: var(--font-brand);
+  letter-spacing: var(--tracking-brand);
+  color: var(--brand-logo);
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-brand);
+  font-size: 14px;
+  letter-spacing: var(--tracking-nav);
+  color: var(--text-nav);
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--text-nav);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  transform: scaleX(1);
+}

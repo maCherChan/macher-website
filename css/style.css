@@ -1,0 +1,153 @@
+/* ============================================================
+   maCher Chan — Home Page Styles
+   依赖 global.css 提供的 @font-face、:root 变量、Reset
+   ============================================================ */
+
+/* ---------- Base ---------- */
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
+body {
+  min-height: 100%;
+  color: var(--text-primary);
+  font-family: var(--font-cn);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+/* ============================================================
+   PAGE 1: HOME
+   ============================================================ */
+
+.page-home {
+  overflow: hidden;
+}
+
+.home-layout {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+}
+
+/* --- Brand Name (top-left, visual anchor) --- */
+/* 首页唯一例外：大标题允许全大写 MACHER CHAN */
+.home-brand {
+  position: absolute;
+  top: 55px;
+  left: 60px;
+
+  font-family: var(--font-brand);
+  font-size: clamp(80px, 12vw, 180px);
+  letter-spacing: var(--tracking-brand);
+  line-height: 0.9;
+  color: var(--brand-blue);
+
+  user-select: none;
+  animation: fadeIn 0.8s ease-out both;
+}
+
+.home-brand__line {
+  display: block;
+}
+
+/* --- Vertical Navigation (top-right) --- */
+.home-nav {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  animation: fadeIn 0.8s ease-out 0.15s both;
+}
+
+.home-nav a {
+  font-family: var(--font-brand);
+  font-size: 16px;
+  letter-spacing: var(--tracking-nav);
+  color: var(--text-nav);
+  line-height: 2.0;
+  position: relative;
+}
+
+.home-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--text-nav);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.home-nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* --- Tagline (bottom-left) --- */
+.home-tagline {
+  position: absolute;
+  left: 60px;
+  bottom: 120px;
+
+  font-family: var(--font-cn);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  max-width: 280px;
+  line-height: 1.6;
+
+  animation: fadeIn 0.8s ease-out 0.35s both;
+}
+
+/* --- Subtitle (bottom-right) --- */
+.home-subtitle {
+  position: absolute;
+  right: 60px;
+  bottom: 48px;
+
+  font-family: var(--font-brand);
+  font-size: clamp(48px, 8vw, 120px);
+  letter-spacing: var(--tracking-brand);
+  line-height: 0.9;
+  color: var(--brand-blue);
+  text-align: right;
+
+  user-select: none;
+  animation: fadeIn 0.8s ease-out 0.25s both;
+}

@@ -1,0 +1,149 @@
+/* ============================================================
+   maCher Chan® — Services Page
+   ============================================================ */
+
+body {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+
+.services-main {
+  padding: 140px 60px 100px;
+}
+
+/* ─── Title ───────────────────────────────────────────────── */
+
+.services-header {
+  margin-bottom: 72px;
+}
+
+.services-title-cn {
+  font-family: var(--font-cn);
+  font-weight: bold;
+  font-size: 48px;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.services-title-en {
+  font-family: var(--font-brand);
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+/* ─── Tiers ───────────────────────────────────────────────── */
+
+.services-tiers {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.tier {
+  display: grid;
+  grid-template-columns: 180px 220px 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 44px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.tier-name {
+  font-family: var(--font-cn);
+  font-weight: bold;
+  font-size: 28px;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.tier-scale {
+  font-family: var(--font-cn);
+  font-size: 16px;
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.tier-deliverables {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tier-main {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+.tier-sub {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.8;
+  margin-top: 10px;
+}
+
+.cta-btn {
+  display: inline-block;
+  font-family: var(--font-brand);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: #F4F4F5;
+  background: rgba(20, 110, 245, 0.77);
+  padding: 11px 24px;
+  border-radius: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.cta-btn:hover {
+  background: rgba(20, 110, 245, 0.9);
+}
+
+/* ─── Addon ───────────────────────────────────────────────── */
+
+.services-addon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 48px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.addon-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.addon-name {
+  font-family: var(--font-cn);
+  font-weight: bold;
+  font-size: 22px;
+  color: var(--text-primary);
+}
+
+.addon-desc {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.8;
+}
+
+
+/* ─── Footer ──────────────────────────────────────────────── */
+
+.services-footer {
+  padding-top: 40px;
+}
+
+.coverage-note {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}

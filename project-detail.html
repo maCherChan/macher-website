@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>maCher Chan® — 案例详情</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/project-detail.css">
+</head>
+<body>
+
+  <!-- Nav overlay (visible on both views) -->
+  <nav class="pd-nav">
+    <a href="index.html"    class="pd-nav__brand">maCher Chan®</a>
+    <a href="projects.html" class="pd-nav__right">← PROJECTS</a>
+  </nav>
+
+  <!-- ═══════════ SCATTER VIEW (default) ═══════════ -->
+  <div id="scatterView" class="pd-view">
+    <!-- Items injected by project-detail.js -->
+  </div>
+
+  <!-- ═══════════ CAROUSEL VIEW ═══════════ -->
+  <div id="detailView" class="pd-view" hidden>
+    <div class="dv-scroll" id="dvScroll"></div>
+    <div class="dv-thumbs" id="dvThumbs"></div>
+    <div class="dv-infos"  id="dvInfos">INFOS</div>
+    <div class="dv-counter" id="dvCounter">1 / ?</div>
+  </div>
+
+  <script src="js/project-detail.js"></script>
+</body>
+</html>

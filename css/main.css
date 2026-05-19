@@ -1,0 +1,218 @@
+/* ═══════════════════════════════════════════
+   maCher Chan® — main.css
+   ═══════════════════════════════════════════ */
+
+/* ─── TOKENS ─── */
+:root {
+  --bg:      #F5F2ED;
+  --black:   #0A0A0A;
+  --red:     #FF2D1A;
+  --blue:    #0033FF;
+  --yellow:  #FFE500;
+  --magenta: #E91E8C;
+  --green:   #00C853;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── CURSOR ─── */
+#cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 32px; height: 32px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  transition: width .28s var(--ease-out), height .28s var(--ease-out);
+  will-change: transform;
+}
+#cursor.is-hovering { width: 58px; height: 58px; }
+
+#cursorDot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 5px; height: 5px;
+  background: #fff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+
+/* ─── SITE HEADER ─── */
+.site-header {
+  position: fixed;
+  top: 28px; left: 32px;
+  z-index: 200;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.brand-name {
+  font-family: var(--font-brand);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.077em;
+  color: var(--black);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.brand-name sup { font-size: 8px; vertical-align: super; letter-spacing: 0; }
+.brand-tag {
+  font-family: var(--font-brand);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: -0.077em;
+  color: #999;
+  text-transform: uppercase;
+}
+
+/* ─── STAGE ─── */
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* ─── BLOCK BASE ────────────────────────────
+   Flat single-face coloured rectangle.
+   Rotation is set by GSAP (from CFG in main.js).
+   ::after carries the film-grain texture.
+   ─────────────────────────────────────────── */
+.block {
+  position: absolute;
+  cursor: none;
+  overflow: visible;           /* EN title allowed to overflow right edge */
+  /* box-shadow animated by GSAP-toggled class */
+  transition: box-shadow 0.4s var(--ease-out);
+}
+
+/* Hover state — shadow + z-index (non-transform, so CSS is fine) */
+.block.is-active {
+  z-index: 10;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* ─── EXACT SIZES (calibrated at 1920 × 1080) ─── */
+.block--works    { width: 420px; height: 320px; background: var(--red);     z-index: 3; }
+.block--system   { width: 380px; height: 300px; background: var(--blue);    z-index: 4; }
+.block--services { width: 440px; height: 340px; background: var(--yellow);  z-index: 2; }
+.block--studio   { width: 360px; height: 280px; background: var(--magenta); z-index: 2; }
+.block--contact  { width: 400px; height: 310px; background: var(--green);   z-index: 3; }
+
+/* ─── POSITIONS (% of viewport, 1920×1080 reference) ─── */
+.block--works    { left: 15%; top: 10%; }
+.block--system   { left: 33%; top: 30%; }
+.block--services { left:  8%; top: 50%; }
+.block--studio   { left: 58%; top:  5%; }
+.block--contact  { left: 55%; top: 52%; }
+
+/* ─── FILM GRAIN (::after, clipped to block) ────────────
+   Exact SVG provided by spec.
+   The ::after is position:absolute so it stays inside
+   the block's own box even though the block has
+   overflow:visible (text overflows, grain does not).
+   ─────────────────────────────────────────────────────── */
+.block::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── BLOCK TEXT ─── */
+.block__text {
+  position: absolute;
+  bottom: 0; left: 0;
+  z-index: 1;              /* above ::after grain */
+  padding: 0 0 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* ─── EN TITLE: italic, large, overflows right edge ─── */
+.block__en {
+  display: block;
+  font-family: var(--font-syne);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(48px, 5vw, 80px);
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  white-space: nowrap;
+  color: #fff;
+}
+/* Black text on light-background blocks */
+.block--services .block__en,
+.block--contact  .block__en { color: var(--black); }
+
+/* ─── CN SUBTITLE: Microsoft YaHei Bold ─── */
+.block__cn {
+  display: block;
+  font-family: var(--font-cn);
+  font-weight: bold;
+  font-size: clamp(10px, 0.8vw, 13px);
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.68);
+}
+.block--services .block__cn,
+.block--contact  .block__cn { color: rgba(0, 0, 0, 0.5); }
+
+/* ─── PAGE VEIL ─── */
+.page-veil {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 767px) {
+  html, body { overflow-y: auto; cursor: auto; }
+  #cursor, #cursorDot { display: none; }
+
+  .stage {
+    position: relative;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 14px 48px;
+    height: auto;
+    gap: 10px;
+  }
+  .block {
+    position: relative !important;
+    left: auto !important; top: auto !important;
+    width: min(88vw, 380px) !important;
+    height: auto !important;
+    min-height: 120px;
+    align-self: flex-start;
+  }
+  .block--system { align-self: flex-end; }
+  .block--studio { align-self: flex-end; }
+  .block__text { position: relative; padding: 16px; }
+  .block__en { font-size: clamp(32px, 9vw, 54px); }
+}

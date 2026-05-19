@@ -1,0 +1,171 @@
+/* ============================================================
+   project-detail.css — Scatter View + Carousel View
+   Requires: global.css
+   ============================================================ */
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Overlay Nav ---------- */
+.pd-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 26px 32px;
+  pointer-events: none;
+}
+.pd-nav__brand {
+  font-family: var(--font-brand);
+  font-size: 11px;
+  letter-spacing: var(--tracking-brand);
+  color: var(--brand-logo);
+  pointer-events: all;
+}
+.pd-nav__right {
+  font-family: var(--font-brand);
+  font-size: 11px;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  color: var(--text-primary);
+  pointer-events: all;
+  position: relative;
+}
+.pd-nav__right::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: var(--text-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+.pd-nav__right:hover::after { transform: scaleX(1); }
+
+/* ---------- Views ---------- */
+.pd-view {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+}
+.pd-view[hidden] { display: none; }
+
+/* ---------- Scatter View ---------- */
+#scatterView { overflow: hidden; }
+
+.pd-item {
+  position: absolute;
+  will-change: transform;
+  cursor: zoom-in;
+}
+.pd-item__inner {
+  width: 100%; height: 100%;
+  background: var(--bg-primary);
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.pd-item:hover .pd-item__inner { transform: scale(1.06); }
+
+.pd-item img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  background: var(--bg-primary);
+  border: none; outline: none; box-shadow: none;
+  display: block;
+}
+
+.pd-text-item {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+.pd-text-dash {
+  display: block;
+  font-family: var(--font-brand);
+  font-size: 13px;
+  letter-spacing: var(--tracking-nav);
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.pd-text-series {
+  display: block;
+  font-family: var(--font-brand);
+  font-size: clamp(28px, 3.5vw, 56px);
+  letter-spacing: var(--tracking-brand);
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.05;
+}
+
+/* ---------- Carousel (Detail) View ---------- */
+#detailView:not([hidden]) { display: block; }
+
+.dv-scroll {
+  position: absolute;
+  left: 0; right: 120px; top: 0; bottom: 0;
+  overflow-y: auto; overflow-x: hidden;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 80px 0 80px;
+  gap: 48px;
+  scrollbar-width: none;
+}
+.dv-scroll::-webkit-scrollbar { display: none; }
+
+.dv-img-item { flex-shrink: 0; width: min(52vw, 680px); }
+.dv-img-item img {
+  display: block; width: 100%; max-height: 85vh;
+  object-fit: contain; background: var(--bg-primary);
+  border: none; outline: none; box-shadow: none;
+}
+
+.dv-thumbs {
+  position: fixed;
+  right: 16px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 8px;
+  max-height: 85vh; overflow-y: auto; scrollbar-width: none;
+}
+.dv-thumbs::-webkit-scrollbar { display: none; }
+
+.dv-thumb {
+  position: relative;
+  width: 80px; height: 107px;
+  flex-shrink: 0; cursor: pointer;
+  background: var(--bg-primary);
+}
+.dv-thumb img {
+  width: 100%; height: 100%;
+  object-fit: contain; background: var(--bg-primary);
+  border: none; outline: none; box-shadow: none;
+  opacity: 0.45; transition: opacity 0.25s;
+}
+.dv-thumb.is-active img { opacity: 1; }
+.dv-thumb.is-active::before {
+  content: '';
+  position: absolute;
+  left: -10px; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--text-primary);
+}
+
+.dv-infos {
+  position: fixed; bottom: 24px; left: 32px;
+  font-family: var(--font-brand);
+  font-size: 10px; letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  color: var(--text-primary);
+  cursor: pointer; z-index: 10;
+}
+.dv-counter {
+  position: fixed; bottom: 24px; right: 100px;
+  font-family: var(--font-brand);
+  font-size: 10px; letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  color: var(--text-primary); z-index: 10;
+}

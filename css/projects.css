@@ -1,0 +1,108 @@
+/* ============================================================
+   projects.css — Horizontal Gallery Page
+   Requires: global.css
+   ============================================================ */
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Full-height column below fixed nav */
+.pg-outer {
+  position: fixed;
+  top: 70px;          /* matches global.css .nav height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;  /* vertically center the gallery track */
+  overflow: hidden;
+}
+
+/* ── Scrollable gallery track ── */
+.pg-gallery {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 80px;            /* between series groups */
+
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 0 60px;
+  width: 100%;
+  height: 70vh;         /* 60-70 % of viewport */
+
+  scrollbar-width: none;
+  cursor: grab;
+}
+.pg-gallery:active     { cursor: grabbing; }
+.pg-gallery::-webkit-scrollbar { display: none; }
+
+/* ── Series group ── */
+.pg-group {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.pg-group__label {
+  font-family: var(--font-cn);
+  font-weight: bold;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  color: #1c1c1e;
+  white-space: nowrap;
+  margin-top: 10px;
+}
+
+.pg-group__items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;  /* center-aligns items of different heights */
+  gap: 12px;
+}
+
+/* ── Image items ── */
+.pg-item {
+  flex-shrink: 0;
+  width: 180px;
+  height: 240px;
+  cursor: pointer;
+}
+
+/* Center image in each group is slightly larger */
+.pg-item--center {
+  width: 220px;
+  height: 293px;
+}
+
+.pg-item__inner {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary);
+  overflow: hidden;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.pg-item__inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--bg-primary);
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Hover: dim everything, restore + scale the hovered item.
+   .has-hover is toggled by JS only when mouse is over a .pg-item */
+.pg-gallery.has-hover .pg-item__inner {
+  opacity: 0.6;
+}
+.pg-gallery.has-hover .pg-item:hover .pg-item__inner {
+  opacity: 1;
+  transform: scale(1.08);
+}
