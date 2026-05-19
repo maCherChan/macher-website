@@ -147,3 +147,36 @@ body {
   color: var(--text-secondary);
   letter-spacing: 0.02em;
 }
+
+/* ─── Mobile (≤ 768px) ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .services-main {
+    padding: 86px 20px 80px;
+  }
+
+  .services-title-cn {
+    font-size: 36px;
+  }
+
+  .tier {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 12px;
+    padding: 32px 0;
+  }
+
+  .tier-main,
+  .tier-sub {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .cta-btn {
+    justify-self: start;
+  }
+
+  .services-addon {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

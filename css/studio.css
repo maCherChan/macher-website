@@ -221,3 +221,67 @@ body {
   font-size: 14px;
   color: var(--text-primary);
 }
+
+/* ─── Mobile (≤ 768px) ──────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Hero */
+  .studio-hero {
+    padding: 90px 20px 60px;
+  }
+
+  .hero-text {
+    font-size: clamp(18px, 5vw, 28px);
+  }
+
+  .lang-toggle {
+    top: 56px;
+    right: 20px;
+  }
+
+  /* Information */
+  .studio-info {
+    padding: 60px 20px;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .info-title {
+    font-size: clamp(40px, 12vw, 72px);
+  }
+
+  .info-row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  /* Methodology */
+  .studio-method {
+    padding: 0 20px 80px;
+  }
+
+  .method-title {
+    font-size: clamp(40px, 12vw, 72px);
+  }
+
+  .method-compare {
+    max-width: 100%;
+  }
+
+  .compare-labels,
+  .compare-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .step-ours {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .method-addon {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

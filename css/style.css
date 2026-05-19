@@ -151,3 +151,40 @@ button {
   user-select: none;
   animation: fadeIn 0.8s ease-out 0.25s both;
 }
+
+/* ─── Mobile (≤ 768px) ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .home-brand {
+    top: 70px;
+    left: 20px;
+    font-size: clamp(42px, 14vw, 80px);
+  }
+
+  .home-nav {
+    top: 14px;
+    right: 20px;
+    left: 20px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .home-nav a {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .home-subtitle {
+    right: 20px;
+    bottom: 32px;
+    font-size: clamp(28px, 8vw, 48px);
+  }
+
+  .home-tagline {
+    left: 20px;
+    bottom: 110px;
+    max-width: calc(100vw - 40px);
+    font-size: 11px;
+  }
+}

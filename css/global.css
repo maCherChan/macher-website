@@ -112,3 +112,21 @@ img {
 .nav-links a.active::after {
   transform: scaleX(1);
 }
+
+/* ─── Mobile (≤ 768px) ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 20px;
+    height: 56px;
+  }
+  .nav-logo {
+    font-size: 13px;
+  }
+  .nav-links {
+    gap: 14px;
+  }
+  .nav-links a {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+}

@@ -106,3 +106,31 @@ html, body {
   opacity: 1;
   transform: scale(1.08);
 }
+
+/* ─── Mobile (≤ 768px) ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .pg-outer {
+    top: 56px;
+  }
+
+  .pg-gallery {
+    padding: 0 20px;
+    gap: 48px;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+  }
+
+  .pg-item {
+    width: 130px;
+    height: 173px;
+  }
+
+  .pg-item--center {
+    width: 160px;
+    height: 213px;
+  }
+
+  .pg-group__label {
+    font-size: 14px;
+  }
+}

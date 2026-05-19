@@ -169,3 +169,36 @@ html, body {
   text-transform: uppercase;
   color: var(--text-primary); z-index: 10;
 }
+
+/* ─── Mobile (≤ 768px) ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .pd-nav {
+    padding: 16px 20px;
+  }
+
+  .pd-text-series {
+    font-size: clamp(18px, 6vw, 36px);
+  }
+
+  /* Carousel: hide thumbnails, expand scroll area */
+  .dv-scroll {
+    right: 0;
+    padding: 60px 20px 80px;
+  }
+
+  .dv-thumbs {
+    display: none;
+  }
+
+  .dv-img-item {
+    width: min(90vw, 680px);
+  }
+
+  .dv-infos {
+    left: 20px;
+  }
+
+  .dv-counter {
+    right: 20px;
+  }
+}

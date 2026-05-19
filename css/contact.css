@@ -89,3 +89,24 @@ body {
 .copy-feedback.visible {
   opacity: 1;
 }
+
+/* ─── Mobile (≤ 768px) ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .contact-main {
+    padding: 70px 20px 60px;
+  }
+
+  .contact-heading {
+    font-size: clamp(40px, 10vw, 80px);
+    margin-bottom: 48px;
+  }
+
+  .contact-list {
+    gap: 36px;
+  }
+
+  .contact-value {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+}
