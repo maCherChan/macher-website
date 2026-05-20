@@ -105,6 +105,10 @@ const SERIES = [
       '{__look_id____Ref_Analysis_01_,_202603251342.png',
     ],
   },
+  {
+    id: 'adadd', name: 'aDaDD', dir: 'aDaDD',
+    images: Array.from({length: 8}, (_, i) => `aDaDD (${i + 1}).png`),
+  },
 ];
 
 /* ═══════════════════════════════════════════
