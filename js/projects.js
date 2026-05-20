@@ -199,6 +199,7 @@ gallery.addEventListener('wheel', e => {
 
 /* ── 拖拽 ── */
 let isDragging = false, startX = 0, startPos = 0;
+let isTouching = false;
 
 gallery.addEventListener('mousedown', e => {
   isDragging      = true;
@@ -215,6 +216,50 @@ document.addEventListener('mousemove', e => {
   pos = startPos - dx;
   applyPos();
 });
+
+/* ── 触摸拖动（移动端专用）──────────────────────
+   touch-action:none 禁用浏览器原生滚动，完全由 JS 控制 pos，
+   与鼠标拖拽逻辑保持一致，避免 scrollLeft 被 applyPos 覆盖导致回弹。
+   ─────────────────────────────────────────────── */
+if ('ontouchstart' in window) {
+  let txStart = 0, txLast = 0, posStart = 0, vel = 0, moRaf = null;
+
+  gallery.addEventListener('touchstart', e => {
+    isTouching = true;
+    dragMoved  = false;
+    cancelAnimationFrame(moRaf);
+    txStart = txLast = e.touches[0].clientX;
+    posStart = pos;
+    vel = 0;
+    lastInteraction = Date.now();
+  }, { passive: true });
+
+  gallery.addEventListener('touchmove', e => {
+    if (!isTouching) return;
+    const x  = e.touches[0].clientX;
+    const dx = txLast - x;
+    vel = vel * 0.4 + dx * 0.6;          // EMA 平滑速度
+    txLast = x;
+    if (Math.abs(x - txStart) > 4) dragMoved = true;
+    pos = posStart - (x - txStart);
+    applyPos();
+    lastInteraction = Date.now();
+  }, { passive: true });
+
+  gallery.addEventListener('touchend', () => {
+    isTouching = false;
+    lastInteraction = Date.now() + 500;  // 自动轮播延迟2s恢复（+AUTO_RESUME 1500）
+
+    // 惯性减速：速度衰减到 0.5px/帧 以下才停止
+    (function momentum() {
+      vel *= 0.90;
+      if (Math.abs(vel) < 0.5) { vel = 0; return; }
+      pos += vel;
+      applyPos();
+      moRaf = requestAnimationFrame(momentum);
+    }());
+  });
+}
 
 /* ── 自动播放（悬停或交互时暂停，1.5s后恢复）── */
 const AUTO_SPEED  = 0.4;    // px/frame ≈ 24 px/s at 60fps
@@ -239,7 +284,7 @@ gallery.addEventListener('mouseout', e => {
 
 (function autoTick() {
   requestAnimationFrame(autoTick);
-  if (!isDragging && !isHovered && (Date.now() - lastInteraction) > AUTO_RESUME) {
+  if (!isDragging && !isHovered && !isTouching && (Date.now() - lastInteraction) > AUTO_RESUME) {
     pos += AUTO_SPEED;
     applyPos();
   }
