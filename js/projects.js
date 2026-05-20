@@ -106,7 +106,7 @@ const SERIES = [
     ],
   },
   {
-    id: 'adadd', name: 'aDaDD', dir: 'aDaDD',
+    id: 'aDaDD', name: 'aDaDD', dir: 'aDaDD',
     images: Array.from({length: 8}, (_, i) => `aDaDD (${i + 1}).png`),
   },
 ];
