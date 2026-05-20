@@ -1,9 +1,7 @@
 'use strict';
 
-const origP = (dir, file) => dir + '/' + file;
-
 /* ═══════════════════════════════════════════
-   SERIES DATA (corrected image paths)
+   SERIES DATA
    ═══════════════════════════════════════════ */
 const SERIES = [
   {
@@ -112,180 +110,75 @@ const SERIES = [
 ];
 
 /* ═══════════════════════════════════════════
-   BUILD HORIZONTAL GALLERY
-   每个系列显示前8张；中间图片稍大
-   data-series-id 保留在 group 上，供克隆后事件委托使用
+   BUILD DOM
    ═══════════════════════════════════════════ */
-const gallery = document.getElementById('pgGallery');
-const SHOW_PER_SERIES = 8;
+const sidebar   = document.getElementById('projSidebar');
+const list      = document.getElementById('projList');
+const listItems = [];
+const sideItems = [];
 
-SERIES.forEach(series => {
-  const group = document.createElement('div');
-  group.className = 'pg-group';
-  group.dataset.seriesId = series.id;   // 委托点击时识别系列
+SERIES.forEach((series, idx) => {
+  /* sidebar button */
+  const sBtn = document.createElement('button');
+  sBtn.className   = 'proj-sidebar__item';
+  sBtn.type        = 'button';
+  sBtn.textContent = series.name;
+  sidebar.appendChild(sBtn);
+  sideItems.push(sBtn);
 
-  const label = document.createElement('div');
-  label.className   = 'pg-group__label';
-  label.textContent = series.name;
+  /* list item */
+  const item = document.createElement('div');
+  item.className = 'proj-item';
 
-  const items = document.createElement('div');
-  items.className = 'pg-group__items';
+  const cover = document.createElement('div');
+  cover.className = 'proj-item__cover';
 
-  const shown     = series.images.slice(0, SHOW_PER_SERIES);
-  const centerIdx = Math.floor((shown.length - 1) / 2);
+  const img = document.createElement('img');
+  img.src     = series.dir + '/' + series.images[0];
+  img.alt     = series.name;
+  img.loading = idx === 0 ? 'eager' : 'lazy';
 
-  shown.forEach((file, i) => {
-    const item = document.createElement('div');
-    item.className = 'pg-item' + (i === centerIdx ? ' pg-item--center' : '');
+  const nameEl = document.createElement('p');
+  nameEl.className   = 'proj-item__name';
+  nameEl.textContent = series.name;
 
-    const inner = document.createElement('div');
-    inner.className = 'pg-item__inner';
+  cover.appendChild(img);
+  item.appendChild(cover);
+  item.appendChild(nameEl);
+  list.appendChild(item);
+  listItems.push(item);
 
-    const img = document.createElement('img');
-    img.src     = origP(series.dir, 'thumbs/' + file.replace(/\.[^.]+$/, '.jpg'));
-    img.alt     = `${series.name} ${i + 1}`;
-    img.loading = 'lazy';
+  /* click → detail page */
+  const goDetail = () => {
+    window.location.href = 'project-detail.html?series=' + series.id;
+  };
+  cover.addEventListener('click', goDetail);
+  nameEl.addEventListener('click', goDetail);
 
-    inner.appendChild(img);
-    item.appendChild(inner);
-    items.appendChild(item);
+  /* sidebar click → scroll to item */
+  sBtn.addEventListener('click', () => {
+    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
-
-  group.appendChild(items);
-  group.appendChild(label);   // label 在图片行下方，右对齐
-  gallery.appendChild(group);
 });
 
 /* ═══════════════════════════════════════════
-   无限循环：克隆全部 group 追加到末尾
-   点击通过事件委托处理（克隆节点不复制监听器）
+   SCROLL-BASED ACTIVE HIGHLIGHT
+   Whichever item's center is closest to the
+   viewport center becomes active.
    ═══════════════════════════════════════════ */
-Array.from(gallery.children).forEach(g => gallery.appendChild(g.cloneNode(true)));
+function updateActive() {
+  const mid = window.innerHeight / 2;
+  let activeIdx = 0;
+  let minDist   = Infinity;
 
-let dragMoved = false;
-gallery.addEventListener('click', e => {
-  if (dragMoved) return;
-  const item  = e.target.closest('.pg-item');
-  if (!item) return;
-  const group = item.closest('.pg-group');
-  if (group?.dataset.seriesId)
-    window.location.href = 'project-detail.html?series=' + group.dataset.seriesId;
-});
-
-/* ═══════════════════════════════════════════
-   SCROLL STATE — 统一虚拟 pos 变量
-   halfW = scrollWidth/2 = 一套原始内容的宽度
-   applyPos 把 pos 归一化到 [0, halfW) 实现无缝循环
-   ═══════════════════════════════════════════ */
-let pos = 0;
-let halfW = 0;
-
-function applyPos() {
-  if (!halfW) return;
-  pos = ((pos % halfW) + halfW) % halfW;
-  gallery.scrollLeft = pos;
-}
-
-requestAnimationFrame(() => { halfW = gallery.scrollWidth / 2; });
-
-/* ── 滚轮 ── */
-let lastInteraction = 0;
-gallery.addEventListener('wheel', e => {
-  e.preventDefault();
-  lastInteraction = Date.now();
-  pos += e.deltaY;
-  applyPos();
-}, { passive: false });
-
-/* ── 拖拽 ── */
-let isDragging = false, startX = 0, startPos = 0;
-let isTouching = false;
-
-gallery.addEventListener('mousedown', e => {
-  isDragging      = true;
-  dragMoved       = false;
-  startX          = e.clientX;
-  startPos        = pos;
-  lastInteraction = Date.now();
-});
-document.addEventListener('mouseup', () => { isDragging = false; });
-document.addEventListener('mousemove', e => {
-  if (!isDragging) return;
-  const dx = e.clientX - startX;
-  if (Math.abs(dx) > 4) dragMoved = true;
-  pos = startPos - dx;
-  applyPos();
-});
-
-/* ── 触摸拖动（移动端专用）──────────────────────
-   touch-action:none 禁用浏览器原生滚动，完全由 JS 控制 pos，
-   与鼠标拖拽逻辑保持一致，避免 scrollLeft 被 applyPos 覆盖导致回弹。
-   ─────────────────────────────────────────────── */
-if ('ontouchstart' in window) {
-  let txStart = 0, txLast = 0, posStart = 0, vel = 0, moRaf = null;
-
-  gallery.addEventListener('touchstart', e => {
-    isTouching = true;
-    dragMoved  = false;
-    cancelAnimationFrame(moRaf);
-    txStart = txLast = e.touches[0].clientX;
-    posStart = pos;
-    vel = 0;
-    lastInteraction = Date.now();
-  }, { passive: true });
-
-  gallery.addEventListener('touchmove', e => {
-    if (!isTouching) return;
-    const x  = e.touches[0].clientX;
-    const dx = txLast - x;
-    vel = vel * 0.4 + dx * 0.6;          // EMA 平滑速度
-    txLast = x;
-    if (Math.abs(x - txStart) > 4) dragMoved = true;
-    pos = posStart - (x - txStart);
-    applyPos();
-    lastInteraction = Date.now();
-  }, { passive: true });
-
-  gallery.addEventListener('touchend', () => {
-    isTouching = false;
-    lastInteraction = Date.now() + 500;  // 自动轮播延迟2s恢复（+AUTO_RESUME 1500）
-
-    // 惯性减速：速度衰减到 0.5px/帧 以下才停止
-    (function momentum() {
-      vel *= 0.90;
-      if (Math.abs(vel) < 0.5) { vel = 0; return; }
-      pos += vel;
-      applyPos();
-      moRaf = requestAnimationFrame(momentum);
-    }());
+  listItems.forEach((el, i) => {
+    const r    = el.getBoundingClientRect();
+    const dist = Math.abs(r.top + r.height / 2 - mid);
+    if (dist < minDist) { minDist = dist; activeIdx = i; }
   });
+
+  sideItems.forEach((s, i) => s.classList.toggle('is-active', i === activeIdx));
 }
 
-/* ── 自动播放（悬停或交互时暂停，1.5s后恢复）── */
-const AUTO_SPEED  = 0.4;    // px/frame ≈ 24 px/s at 60fps
-const AUTO_RESUME = 1500;   // ms
-
-let isHovered = false;
-
-// 只在进出 .pg-item 时切换——空白区域不触发
-gallery.addEventListener('mouseover', e => {
-  if (e.target.closest('.pg-item')) {
-    isHovered = true;
-    gallery.classList.add('has-hover');
-  }
-});
-gallery.addEventListener('mouseout', e => {
-  // relatedTarget 不在任何 .pg-item 内时才算"真正离开图片"
-  if (!e.relatedTarget?.closest('.pg-item')) {
-    isHovered = false;
-    gallery.classList.remove('has-hover');
-  }
-});
-
-(function autoTick() {
-  requestAnimationFrame(autoTick);
-  if (!isDragging && !isHovered && !isTouching && (Date.now() - lastInteraction) > AUTO_RESUME) {
-    pos += AUTO_SPEED;
-    applyPos();
-  }
-}());
+window.addEventListener('scroll', updateActive, { passive: true });
+updateActive();

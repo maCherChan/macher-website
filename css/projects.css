@@ -1,136 +1,102 @@
 /* ============================================================
-   projects.css — Horizontal Gallery Page
+   projects.css — Vertical Gallery Page
    Requires: global.css
    ============================================================ */
 
-html, body {
-  height: 100%;
-  overflow: hidden;
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Full-height column below fixed nav */
-.pg-outer {
+/* ── Left sidebar: fixed, vertically centered ── */
+.proj-sidebar {
   position: fixed;
-  top: 70px;          /* matches global.css .nav height */
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
   display: flex;
-  align-items: center;  /* vertically center the gallery track */
-  overflow: hidden;
-}
-
-/* ── Scrollable gallery track ── */
-.pg-gallery {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 80px;            /* between series groups */
-
-  overflow-x: auto;
-  overflow-y: visible;
-  padding: 0 60px;
-  width: 100%;
-  height: 70vh;         /* 60-70 % of viewport */
-
-  scrollbar-width: none;
-  cursor: grab;
-}
-.pg-gallery:active     { cursor: grabbing; }
-.pg-gallery::-webkit-scrollbar { display: none; }
-
-/* ── Series group ── */
-.pg-group {
-  display: inline-flex;
   flex-direction: column;
-  align-items: flex-end;
-  flex-shrink: 0;
+  gap: 14px;
 }
 
-.pg-group__label {
-  font-family: var(--font-cn);
-  font-weight: bold;
-  font-size: 17px;
-  letter-spacing: 0.02em;
-  color: #1c1c1e;
+.proj-sidebar__item {
+  font-family: var(--font-brand);
+  font-size: 14px;
+  letter-spacing: var(--tracking-brand);
+  color: rgba(0, 0, 0, 0.3);
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
   white-space: nowrap;
-  margin-top: 10px;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
 
-.pg-group__items {
+.proj-sidebar__item.is-active {
+  color: #000;
+  font-weight: 900;
+}
+
+/* ── Vertical scroll list ── */
+.proj-list {
+  padding-top: 130px;
+  padding-bottom: 140px;
   display: flex;
-  flex-direction: row;
-  align-items: center;  /* center-aligns items of different heights */
-  gap: 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 90px;
 }
 
-/* ── Image items ── */
-.pg-item {
-  flex-shrink: 0;
-  width: 180px;
-  height: 240px;
+/* ── Each project entry ── */
+.proj-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.proj-item__cover {
+  width: 50vw;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
   cursor: pointer;
 }
 
-/* Center image in each group is slightly larger */
-.pg-item--center {
-  width: 220px;
-  height: 293px;
-}
-
-.pg-item__inner {
+.proj-item__cover img {
   width: 100%;
   height: 100%;
-  background: var(--bg-primary);
-  overflow: hidden;
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-}
-
-.pg-item__inner img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: var(--bg-primary);
+  object-fit: cover;
   display: block;
-  pointer-events: none;
-  user-select: none;
+  transition: transform 0.3s ease-out;
 }
 
-/* Hover: dim everything, restore + scale the hovered item.
-   .has-hover is toggled by JS only when mouse is over a .pg-item */
-.pg-gallery.has-hover .pg-item__inner {
-  opacity: 0.6;
-}
-.pg-gallery.has-hover .pg-item:hover .pg-item__inner {
-  opacity: 1;
-  transform: scale(1.08);
+.proj-item__cover:hover img {
+  transform: scale(1.02);
 }
 
-/* ─── Mobile (≤ 768px) ──────────────────────────────────── */
+.proj-item__name {
+  font-family: var(--font-brand);
+  font-size: 14px;
+  letter-spacing: var(--tracking-brand);
+  color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+/* ── Mobile (≤ 768px) ── */
 @media (max-width: 768px) {
-  .pg-outer {
-    top: 56px;
+  .proj-sidebar {
+    display: none;
   }
 
-  .pg-gallery {
-    padding: 0 20px;
-    gap: 48px;
-    touch-action: none;
-    overscroll-behavior-x: contain;
+  .proj-list {
+    padding-top: 100px;
+    gap: 60px;
   }
 
-  .pg-item {
-    width: 130px;
-    height: 173px;
-  }
-
-  .pg-item--center {
-    width: 160px;
-    height: 213px;
-  }
-
-  .pg-group__label {
-    font-size: 14px;
+  .proj-item__cover {
+    width: 85vw;
   }
 }
