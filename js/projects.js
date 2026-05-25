@@ -107,6 +107,18 @@ const SERIES = [
     id: 'aDaDD', name: 'aDaDD', dir: 'aDaDD',
     images: Array.from({length: 8}, (_, i) => `aDaDD (${i + 1}).jpg`),
   },
+  {
+    id: 'islou', name: 'Intellectual Slouch', dir: 'Intellectual Slouch',
+    images: [
+      'Intellectual Slouch (1).jpeg', 'Intellectual Slouch (2).jpeg', 'Intellectual Slouch (3).jpeg',
+      'Intellectual Slouch (4).jpeg', 'Intellectual Slouch (5).jpeg', 'Intellectual Slouch (6).jpeg',
+      'Intellectual Slouch (7).jpeg',
+      'Intellectual Slouch (1).png',  'Intellectual Slouch (2).png',  'Intellectual Slouch (3).png',
+      'Intellectual Slouch (4).png',  'Intellectual Slouch (5).png',  'Intellectual Slouch (6).png',
+      'Intellectual Slouch (7).png',  'Intellectual Slouch (8).png',  'Intellectual Slouch (9).png',
+      'Intellectual Slouch (10).png',
+    ],
+  },
 ];
 
 /* ═══════════════════════════════════════════
